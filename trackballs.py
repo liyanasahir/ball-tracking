@@ -12,19 +12,18 @@ def traceCircle(frame, mask):
 	# (x, y) center of the ball
 	cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)[-2]
-	center = None
 
 	# only proceed if at least one contour was found
 	if len(cnts) > 0:
 		# find the largest contour in the mask, then use
-		# it to compute the minimum enclosing circle and centroid
+		# it to compute the minimum enclosing circle
 		c = max(cnts, key=cv2.contourArea)
 		((x, y), radius) = cv2.minEnclosingCircle(c)
-		M = cv2.moments(c)
+
 
 		# only proceed if the radius meets a minimum size
 		if radius > 10:
-			# draw the circle on the frame,
+			# draw the circle on the frame
 			cv2.circle(frame, (int(x), int(y)), int(radius),
 				(0, 255, 255), 2)
 
@@ -57,8 +56,7 @@ redUpper = (255, 248, 135)
 while True:
 	(grabbed, frame) = camera.read()
 
-	# if we are viewing a video and we did not grab a frame,
-	# then we have reached the end of the video
+	# to check if video has ended
 	if args.get("video") and not grabbed:
 		break
 
